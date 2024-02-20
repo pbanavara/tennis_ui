@@ -2,15 +2,23 @@
 import React from 'react';
 import axios from "axios";
 import { NextPage } from 'next'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FormEvent } from 'react';
 import Header from "../components/Header";
 import { useSession, signIn } from 'next-auth/react';
-import  Image from 'next/image';
+import Image from 'next/image';
+import { Toaster } from "react-hot-toast";
 
 export default function Ace() {
+
+    useEffect(() => {
+        console.log("Use effect called")
+         setOutputFileName(localStorage.getItem(userEmail) || "")
+    }, []);
+
     const [fileObj, setFileObj] = useState<File>();
     const [userEmail, setUserEmail] = useState<string>();
+    const [outputFileName, setOutputFileName] = useState<string>();
     const { data: session } = useSession();
 
     let handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,7 +28,7 @@ export default function Ace() {
             setUserEmail(session.user.email)
         }
     }
-    let uploadFile = () => {
+    async function uploadFile() {
         var formData = new FormData();
         formData.append('email', userEmail)
         formData.append('file', fileObj)
@@ -32,10 +40,15 @@ export default function Ace() {
         } 
         try {
             axios.post("http://localhost:8000/video", formData, config).then((response) => {
-                console.log("Response is :: ", response.data);
+                console.log("Response is :: ", response.data); 
+                let s3_url = process.env.S3_URL || "http://d3dgc1hn06lo53.cloudfront.net/"
+                let full_file_name = s3_url + response.data.out_file
+                localStorage.setItem(userEmail, full_file_name)
+                setOutputFileName(full_file_name)
             },
             (error) => {
                 console.log("An error occured in upload", error)
+                alert("Error occured");
             }
             );
         } catch (error) {
@@ -67,12 +80,11 @@ export default function Ace() {
         </div>
     )
     } else {
-        console.log("User is authenticated");
         return (
             <div className="flex max-w-6xl mx-auto flex-col items-center justify-center py-2 min-h-screen">
                 <Header />
                 <main className="flex flex-1 w-full flex-col items-center justify-center text-center px-2 sm:mt-28 mt-20">
-                    <h2 className = "text-black" > Upload your videos here
+                    <h2 className = "text-black" > Upload your forehand videos here. Videos less than <b> 20 MB </b> please.
                     </h2>
                     <div>
 
@@ -85,14 +97,16 @@ export default function Ace() {
                         <div className="flex flex-col space-y-10 mt-4 mb-16">
                             <div className="flex sm:space-x-2 sm:flex-row flex-col">
                                 <div>
-                                    <video width="800" height="600" controls autoPlay={true} loop >
-                                        <source src="http://d3dgc1hn06lo53.cloudfront.net/output_1.m4v" type="video/mp4" />
-                                    </video>
+                                    {outputFileName &&
+                                        <video width="800" height="600" controls autoPlay={true} playsInline loop >
+                                            <source src={outputFileName}
+                                                type="video/mp4" />
+                                        </video>
+                                    }
                                 </div>
                                 <div>
                                     <video width="800" height="600" controls autoPlay={true} loop >
                                         <source src="http://d3dgc1hn06lo53.cloudfront.net/fed_out.m4v" type="video/mp4" />
-                                        Your browser does not support the video tag.
                                     </video>
                                 </div>
                                 <div className="sm:mt-0 mt-8">
