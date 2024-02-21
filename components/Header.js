@@ -12,8 +12,9 @@ export default function Header() {
         <header className="flex justify-between text-black items-center w-full mt-5 border-b-2 pb-7 sm:px-4 px-2">
             <Link href="/" className="flex space-x-2">
                 <h3 className="sm:text-5xl text-3xl font-bold ml-2 tracking-tight">
-                    callindra Beta
+                    Callindra 
                 </h3>
+                <h4> beta </h4>
             </Link>
             <div className="flex space-x-6">
                 <a className="border-r border-gray-300 pr-4 space-x-2 hover:text-blue-400 transition hidden sm:flex" href="/">

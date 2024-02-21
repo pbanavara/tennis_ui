@@ -18,7 +18,7 @@ export default function Home() {
                     </span>{" "}
                 </h1>
                 <p className="mx-auto mt-12 max-w-xl text-lg text-slate-700 leading-7">
-                    Upload your game footage, identify your weak spots, side by side with the champions 100% free.
+                    Upload your game footage, identify your weak spots, side by side with the champions <b> 100% free.</b>
                 </p>
                 <div className="flex justify-center space-x-4">
                     <Link
