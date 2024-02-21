@@ -17,15 +17,15 @@ export default function Header() {
                 <h4> beta </h4>
             </Link>
             <div className="flex space-x-6">
-                <a className="border-r border-gray-300 pr-4 space-x-2 hover:text-blue-400 transition hidden sm:flex" href="/">
+                <Link className="border-r border-gray-300 pr-4 space-x-2 hover:text-blue-400 transition hidden sm:flex" href="/">
                     <p className="font-medium text-base">Home</p>
-                </a>
+                </Link>
                 {session ? (
                     <a className="border-gray-300 pr-4 space-x-2 hover:text-blue-400 transition hidden sm:flex" onClick= {signOutFromHere }> {session.user.name}</a>
                 ): ( 
-                <a className="border-gray-300 pr-4 space-x-2 hover:text-blue-400 transition hidden sm:flex" href="/ace">
+                <Link className="border-gray-300 pr-4 space-x-2 hover:text-blue-400 transition hidden sm:flex" href="/ace">
                     <p className = "font-medium text-base">Ace</p>
-                        </a>
+                        </Link>
                 )
             }
             </div>

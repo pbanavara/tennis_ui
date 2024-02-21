@@ -9,24 +9,28 @@ import SimpleProgressBar from '@/components/ProgressBar';
 import { error } from 'console';
 
 export default function Ace() {
+    
+    const [progress, setProgress] = useState(0);
+    const [processComplete, setProcessComplete] = useState("");
+    
+    const [fileObj, setFileObj] = useState<File>();
+    const [userEmail, setUserEmail] = useState<string>("")
+    const [outputFileName, setOutputFileName] = useState<string>();
+    const { data: session } = useSession();
+
     useEffect(() => {
         console.log("Use effect called")
         setOutputFileName(localStorage.getItem(userEmail) || "")
     }, [])
 
-    const [progress, setProgress] = useState(0);
-    const [processComplete, setProcessComplete] = useState("");
-    
-    const [fileObj, setFileObj] = useState<File>();
-    const [userEmail, setUserEmail] = useState<string>();
-    const [outputFileName, setOutputFileName] = useState<string>();
-    const { data: session } = useSession();
-
     let handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         let files = e.currentTarget.files
         if (files) {
             setFileObj(files[0])
-            setUserEmail(session.user.email)
+            let user = session?.user
+            if (user?.email) {
+                setUserEmail(user.email)
+            }
         }
     }
     const connectToStream = function() {
