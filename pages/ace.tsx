@@ -10,6 +10,7 @@ import { error } from 'console';
 
 export default function Ace() {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL
+    const s3URL = process.env.NEXT_PUBLIC_S3_URL
     console.log("API URL", apiUrl);
     const [progress, setProgress] = useState(0);
     const [processComplete, setProcessComplete] = useState("");
@@ -77,8 +78,7 @@ export default function Ace() {
         try {
             axios.post(`${apiUrl}/video`, formData, config).then((response) => {
                 console.log("Response is :: ", response.data); 
-                let s3_url = process.env.S3_URL
-                let full_file_name = s3_url + response.data.out_file
+                let full_file_name = s3URL + response.data.out_file
                 localStorage.setItem(userEmail, full_file_name)
                 setOutputFileName(full_file_name)
                 setProcessComplete("File processing completed")
@@ -144,7 +144,7 @@ export default function Ace() {
                                 </div>
                                 <div>
                                     <video width="800" height="600" controls autoPlay={true} loop >
-                                            <source src={ process.env.S3_URL + "fed_out.m4v"} type="video/mp4" />
+                                            <source src={ s3URL + "fed_out.m4v"} type="video/mp4" />
                                     </video>
                                 </div>
                             </div>
