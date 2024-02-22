@@ -76,7 +76,7 @@ export default function Ace() {
         try {
             axios.post("http://localhost:8000/video", formData, config).then((response) => {
                 console.log("Response is :: ", response.data); 
-                let s3_url = process.env.S3_URL || "http://d3dgc1hn06lo53.cloudfront.net/"
+                let s3_url = process.env.S3_URL
                 let full_file_name = s3_url + response.data.out_file
                 localStorage.setItem(userEmail, full_file_name)
                 setOutputFileName(full_file_name)
@@ -143,7 +143,7 @@ export default function Ace() {
                                 </div>
                                 <div>
                                     <video width="800" height="600" controls autoPlay={true} loop >
-                                        <source src="http://d3dgc1hn06lo53.cloudfront.net/fed_out.m4v" type="video/mp4" />
+                                            <source src={ process.env.S3_URL + "fed_out.m4v"} type="video/mp4" />
                                     </video>
                                 </div>
                             </div>
