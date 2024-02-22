@@ -9,7 +9,8 @@ import SimpleProgressBar from '@/components/ProgressBar';
 import { error } from 'console';
 
 export default function Ace() {
-    const apiUrl = process.env.API_URL;
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL
+    console.log("API URL", apiUrl);
     const [progress, setProgress] = useState(0);
     const [processComplete, setProcessComplete] = useState("");
     
