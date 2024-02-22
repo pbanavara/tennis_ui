@@ -9,7 +9,7 @@ import SimpleProgressBar from '@/components/ProgressBar';
 import { error } from 'console';
 
 export default function Ace() {
-    
+    const apiUrl = process.env.API_URL;
     const [progress, setProgress] = useState(0);
     const [processComplete, setProcessComplete] = useState("");
     
@@ -34,7 +34,7 @@ export default function Ace() {
         }
     }
     const connectToStream = function() {
-        const eventSource = new EventSource('http://localhost:8000/videoProcessStatus', { withCredentials: true })
+        const eventSource = new EventSource(`${apiUrl}/videoProcessStatus`, { withCredentials: true })
         
         eventSource.onopen = (event) => {
             console.log("Event source is opened", event)
@@ -74,7 +74,7 @@ export default function Ace() {
             withCredentials: false
         } 
         try {
-            axios.post("http://localhost:8000/video", formData, config).then((response) => {
+            axios.post(`${apiUrl}/video`, formData, config).then((response) => {
                 console.log("Response is :: ", response.data); 
                 let s3_url = process.env.S3_URL
                 let full_file_name = s3_url + response.data.out_file
