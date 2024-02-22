@@ -12,6 +12,7 @@ export default function Ace() {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL
     const s3URL = process.env.NEXT_PUBLIC_S3_URL
     console.log("API URL", apiUrl);
+    console.log("S3 URL", s3URL);
     const [progress, setProgress] = useState(0);
     const [processComplete, setProcessComplete] = useState("");
     
