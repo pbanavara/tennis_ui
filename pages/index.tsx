@@ -7,6 +7,9 @@ import va from '@vercel/analytics';
 
 export default function Home() {
     // line above ^ gives me the error below
+    const gameUrl = process.env.NEXT_PUBLIC_S3_URL + "output_1.m4v"
+    const profUrl = process.env.NEXT_PUBLIC_S3_URL + "fed_out.m4v"
+
     return (
         <div className="flex max-w-6xl mx-auto flex-col items-center justify-center py-2 min-h-screen">
             <Header/>
@@ -33,12 +36,12 @@ export default function Home() {
                         <div className="flex sm:space-x-2 sm:flex-row flex-col">
                             <div>
                                 <video width="800" height="600" controls autoPlay={true} loop >
-                                    <source src={process.env.S3_URL + "output_1.m4v"} type="video/mp4" />
+                                    <source src = {gameUrl} type="video/mp4" />
                                 </video>
                             </div>
                             <div>
                                 <video width="800" height="600" controls autoPlay={true} loop >
-                                    <source src={process.env.S3_URL + "fed_out.m4v"} type="video/mp4" />
+                                    <source src={profUrl} type="video/mp4" />
                                     Your browser does not support the video tag.
                                 </video>
                             </div>
