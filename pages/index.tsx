@@ -33,12 +33,12 @@ export default function Home() {
                         <div className="flex sm:space-x-2 sm:flex-row flex-col">
                             <div>
                                 <video width="800" height="600" controls autoPlay={true} loop >
-                                    <source src="http://d3dgc1hn06lo53.cloudfront.net/output_1.m4v" type="video/mp4" />
+                                    <source src={process.env.S3_URL + "output_1.m4v"} type="video/mp4" />
                                 </video>
                             </div>
                             <div>
                                 <video width="800" height="600" controls autoPlay={true} loop >
-                                    <source src="http://d3dgc1hn06lo53.cloudfront.net/fed_out.m4v" type="video/mp4" />
+                                    <source src={process.env.S3_URL + "fed_out.m4v"} type="video/mp4" />
                                     Your browser does not support the video tag.
                                 </video>
                             </div>
