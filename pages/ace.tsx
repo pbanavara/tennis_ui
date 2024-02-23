@@ -6,13 +6,16 @@ import Header from "../components/Header";
 import { useSession, signIn } from 'next-auth/react';
 import Image from 'next/image';
 import SimpleProgressBar from '@/components/ProgressBar';
-import { error } from 'console';
+import { useCookies } from 'react-cookie'; 
+
 
 export default function Ace() {
+
+    const [cookies, setCookie] = useCookies(['fileName']);
+
+
     const apiUrl = process.env.NEXT_PUBLIC_API_URL
     const s3URL = process.env.NEXT_PUBLIC_S3_URL
-    console.log("API URL", apiUrl);
-    console.log("S3 URL", s3URL);
     const [progress, setProgress] = useState(0);
     const [processComplete, setProcessComplete] = useState("");
     
@@ -22,10 +25,12 @@ export default function Ace() {
     const { data: session } = useSession();
 
     useEffect(() => {
-        console.log("Use effect called")
-        setOutputFileName(localStorage.getItem(userEmail) || "")
-    }, [])
-
+        if (cookies.fileName) {
+            setOutputFileName(cookies.fileName)
+            console.log(cookies.fileName)
+        }
+    }) 
+    
     let handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         let files = e.currentTarget.files
         if (files) {
@@ -62,7 +67,6 @@ export default function Ace() {
     async function uploadFile() {
         var formData = new FormData();
         //connectToStream() // commented as this is not working
-        setOutputFileName("");
         setProcessComplete("Processing in progress, please wait");
         formData.append('email', userEmail)
         formData.append('file', fileObj)
@@ -82,11 +86,12 @@ export default function Ace() {
                 let full_file_name = s3URL + response.data.out_file
                 localStorage.setItem(userEmail, full_file_name)
                 setOutputFileName(full_file_name)
-                setProcessComplete("File processing completed")
+                setCookie('fileName', full_file_name)
+                setProcessComplete("File uploaded. Processed video will display once done")
             },
             (error) => {
                 console.log("An error occured in upload", error)
-                alert("Error occured");
+                alert(error);
             }
             );
         } catch (error) {
@@ -122,8 +127,29 @@ export default function Ace() {
             <div className="flex max-w-6xl mx-auto flex-col items-center justify-center py-2 min-h-screen">
                 <Header />
                 <main className="flex flex-1 w-full flex-col items-center justify-center text-center px-2 sm:mt-28 mt-20">
+                    <div className="flex justify-between items-center w-full flex-col sm:mt-10 mt-6">
+                        <h2 className="text-black mx-auto max-w-4xl font-display text-3xl font-bold tracking-normal text-slate-900 sm:text-5xl"> Forehand comparison </h2>
+                        <div className="flex flex-col space-y-10 mt-4 mb-16">
+                            <div className="flex sm:space-x-2 sm:flex-row flex-col">
+                    {outputFileName &&
+                                <div>
+                                        <video width="800" height="600" controls autoPlay={true} playsInline loop >
+                                            <source src={outputFileName}
+                                                type="video/webm" />
+                                        </video>
+                                </div>
+                    }
+                                <div>
+                                    <video width="800" height="600" controls autoPlay={true} loop >
+                                            <source src={ s3URL + "fed_out.m4v"} type="video/mp4" />
+                                    </video>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
                     <p className="mx-auto mt-12 max-w-xl text-lg text-slate-700 leading-7">
-                    Upload your videos, size less than <b> 20 MB</b> please
+                    Upload your forehand videos, size less than <b> 25 MB</b> please. <br></br>
+                    Federer's forehand for reference.
                     </p>
                     <br></br>
                     <input className="text-black" type="file" name="file" accept="video/*" required onChange={handleFileUpload} />
@@ -133,25 +159,7 @@ export default function Ace() {
                         <SimpleProgressBar progress={progress} />
 
                     <p className="mx-auto mt-12 max-w-xl text-lg text-slate-700 leading-7"> {processComplete} </p>
-                    {outputFileName &&
-                    <div className="flex justify-between items-center w-full flex-col sm:mt-10 mt-6">
-                        <div className="flex flex-col space-y-10 mt-4 mb-16">
-                            <div className="flex sm:space-x-2 sm:flex-row flex-col">
-                                <div>
-                                        <video width="800" height="600" controls autoPlay={true} playsInline loop >
-                                            <source src={outputFileName}
-                                                type="video/mp4" />
-                                        </video>
-                                </div>
-                                <div>
-                                    <video width="800" height="600" controls autoPlay={true} loop >
-                                            <source src={ s3URL + "fed_out.m4v"} type="video/mp4" />
-                                    </video>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
-                    }
+                    
                 </main>
             </div>
         )
