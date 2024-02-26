@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client"
 import React from 'react';
 import axios from "axios";
@@ -123,6 +124,7 @@ export default function Ace() {
         </div>
     )
     } else {
+        
         return (
             <div className="flex max-w-6xl mx-auto flex-col items-center justify-center py-2 min-h-screen">
                 <Header />
