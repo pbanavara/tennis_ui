@@ -20,15 +20,23 @@ export default function Home() {
                         <span className="relative">using AI</span>
                     </span>{" "}
                 </h1>
+                <br></br>
+                <h3 className="mx-auto max-w-4xl font-display text-2xl font-bold tracking-normal text-slate-900 sm:text-xl">
+                    Upload your game footage. Identify your weak spots. Side by side with the champions <b> 100% free.</b>
+                </h3>
                 <p className="mx-auto mt-12 max-w-xl text-lg text-slate-700 leading-7">
-                    Upload your game footage, identify your weak spots, side by side with the champions <b> 100% free.</b>
+                    Are you a player interesting in getting better at Tennis ?
+                    <br></br>
+                    Schedule a
+                    <Link href="https://calendly.com/banavara/15min" className="text-l text-blue-600 hover:text-blue-900"> 15 min conversation
+                    </Link> 
                 </p>
                 <div className="flex justify-center space-x-4">
                     <Link
                         className="bg-black rounded-xl text-white font-medium px-4 py-3 sm:mt-10 mt-8 hover:bg-black/80"
                         href="/ace"
                     >
-                        Ace your tennis 
+                        Upload your video 
                     </Link>
                 </div>
                 <div className="flex justify-between items-center w-full flex-col sm:mt-10 mt-6">

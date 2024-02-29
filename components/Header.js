@@ -21,11 +21,15 @@ export default function Header() {
                     <p className="font-medium text-base">Home</p>
                 </Link>
                 {session ? (
-                    <a className="border-gray-300 pr-4 space-x-2 hover:text-blue-400 transition hidden sm:flex" onClick= {signOutFromHere }> {session.user.name}</a>
-                ): ( 
+                    <div>
                 <Link className="border-gray-300 pr-4 space-x-2 hover:text-blue-400 transition hidden sm:flex" href="/ace">
-                    <p className = "font-medium text-base">Ace</p>
+                    <p className = "font-medium text-base">{ session.user.name} </p>
+                </Link>
+                        <Link href="/ace" className="border-gray-300 pr-4 space-x-2 hover:text-blue-400 transition hidden sm:flex" onClick={signOutFromHere}> Sign Out
                         </Link>
+                        </div>
+                ) : (
+                    <Link href="/"></Link>
                 )
             }
             </div>
