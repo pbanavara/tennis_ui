@@ -25,7 +25,7 @@ export default function Home() {
                     Upload your game footage. Identify your weak spots. Side by side with the champions <b> 100% free.</b>
                 </h3>
                 <p className="mx-auto mt-12 max-w-xl text-lg text-slate-700 leading-7">
-                    Are you a player interesting in getting better at Tennis ?
+                    Are you a player interested in getting better at Tennis ?
                     <br></br>
                     Schedule a
                     <Link href="https://calendly.com/banavara/15min" className="text-l text-blue-600 hover:text-blue-900"> 15 min conversation
